@@ -9,9 +9,10 @@ def with_const_lr(f, grad, x0, learning_rate, epsilon):
     xk = np.array([x0])
     for i in range(max_iterations):
         iterations += 1
-        if norm(grad(xk[-1])) < epsilon:
+        step = learning_rate * grad(xk[-1])
+        if np.all(np.abs(step) < epsilon):
             break
-        next_x = xk[-1] - learning_rate * grad(xk[-1])
+        next_x = xk[-1] - step
         xk = np.append(xk, np.array([next_x]), axis=0)
 
     # visualize(xk, f)
@@ -23,9 +24,10 @@ def with_step_crushing(f, grad, x0, learning_rate, epsilon):
     xk = np.array([x0])
     for i in range(max_iterations):
         iterations += 1
-        if norm(grad(xk[-1])) < epsilon:
+        step = learning_rate * grad(xk[-1])
+        if np.all(np.abs(step) < epsilon):
             break
-        next_x = xk[-1] - learning_rate * grad(xk[-1])
+        next_x = xk[-1] - step
         if f(xk[-1]) < f(next_x):
             learning_rate *= 0.5
             continue
@@ -40,10 +42,11 @@ def with_golden_section(f, grad, x0, epsilon):
     xk = np.array([x0])
     for i in range(max_iterations):
         iterations += 1
-        if norm(grad(xk[-1])) < epsilon:
-            break
         learning_rate = golden_section_search(0, 1e6, epsilon, lambda lr: f(xk[-1] - lr * grad(xk[-1])))
-        next_x = xk[-1] - learning_rate * grad(xk[-1])
+        step = learning_rate * grad(xk[-1])
+        if np.all(np.abs(step) < epsilon):
+            break
+        next_x = xk[-1] - step
         xk = np.append(xk, np.array([next_x]), axis=0)
 
     # visualize(xk, f)
@@ -55,10 +58,11 @@ def with_fibonacci(f, grad, x0, epsilon):
     xk = np.array([x0])
     for i in range(max_iterations):
         iterations += 1
-        if norm(grad(xk[-1])) < epsilon:
-            break
         learning_rate = fibonacci_search(0, 1e6, epsilon, lambda lr: f(xk[-1] - lr * grad(xk[-1])))
-        next_x = xk[-1] - learning_rate * grad(xk[-1])
+        step = learning_rate * grad(xk[-1])
+        if np.all(np.abs(step) < epsilon):
+            break
+        next_x = xk[-1] - step
         xk = np.append(xk, np.array([next_x]), axis=0)
 
     # visualize(xk, f)
@@ -71,10 +75,11 @@ def fletcher_reeves(f, grad, x0, epsilon):
     dk = -grad(xk[-1])
     while True:
         iterations += 1
-        if norm(grad(xk[-1])) < epsilon:
-            break
         learning_rate = golden_section_search(0, 1e6, epsilon, lambda t: f(xk[-1] + t * dk))
-        next_x = xk[-1] + learning_rate * dk
+        step = learning_rate * dk
+        if np.all(np.abs(step) < epsilon):
+            break
+        next_x = xk[-1] + step
         xk = np.append(xk, np.array([next_x]), axis=0)
         b = math.pow(norm(grad(xk[-1])), 2) / math.pow(norm(grad(xk[-2])), 2)
         dk = -grad(xk[-1]) + b * dk
