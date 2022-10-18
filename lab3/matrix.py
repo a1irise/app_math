@@ -47,7 +47,7 @@ class Matrix:
             for k in range(self.n):
                 s = sum(self.a[k, i] * x_prev[i] for i in range(self.n) if k != i)
                 x_cur[k] = (b[k] - s) / self.a[k, k]
-            if np.all(abs(x_cur - x_prev) < epsilon):
+            if np.all(np.abs(x_cur - x_prev) < epsilon):
                 break
             xk = np.append(xk, np.array([x_cur]), axis=0)
         return xk[-1]

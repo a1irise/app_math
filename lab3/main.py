@@ -35,7 +35,7 @@ def test_gauss():
 
 def test_jacobi():
     # diagonal_prevalence
-    for n in [10, 50]:
+    for n in [10, 50, 100]:
         for epsilon in [1e-3, 1e-7, 1e-10]:
             m = diagonal_prevalence(n)
             b = f(m)
@@ -64,8 +64,8 @@ def test_jacobi():
                   + ", error: " + str(err))
 
 
-# print("gauss")
-# test_gauss()
+print("gauss")
+test_gauss()
 print("jacobi")
 test_jacobi()
 
