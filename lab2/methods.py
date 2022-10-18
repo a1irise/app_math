@@ -15,7 +15,7 @@ def with_const_lr(f, grad, x0, learning_rate, epsilon):
         next_x = xk[-1] - step
         xk = np.append(xk, np.array([next_x]), axis=0)
 
-    # visualize(xk, f)
+    visualize(xk, f)
     return xk, iterations
 
 
@@ -33,7 +33,7 @@ def with_step_crushing(f, grad, x0, learning_rate, epsilon):
             continue
         xk = np.append(xk, np.array([next_x]), axis=0)
 
-    # visualize(xk, f)
+    visualize(xk, f)
     return xk, len(xk), iterations
 
 
@@ -49,7 +49,7 @@ def with_golden_section(f, grad, x0, epsilon):
         next_x = xk[-1] - step
         xk = np.append(xk, np.array([next_x]), axis=0)
 
-    # visualize(xk, f)
+    visualize(xk, f)
     return xk, iterations
 
 
@@ -65,7 +65,7 @@ def with_fibonacci(f, grad, x0, epsilon):
         next_x = xk[-1] - step
         xk = np.append(xk, np.array([next_x]), axis=0)
 
-    # visualize(xk, f)
+    visualize(xk, f)
     return xk, iterations
 
 
@@ -84,5 +84,5 @@ def fletcher_reeves(f, grad, x0, epsilon):
         b = math.pow(norm(grad(xk[-1])), 2) / math.pow(norm(grad(xk[-2])), 2)
         dk = -grad(xk[-1]) + b * dk
 
-    # visualize(xk, f)
+    visualize(xk, f)
     return xk, iterations
