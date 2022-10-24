@@ -1,30 +1,44 @@
 from random import choice
 import numpy as np
+from scipy.sparse import csr_matrix
 
 
 def diagonal_prevalence(n):
-    ret = np.zeros((n, n))
+    matrix = np.zeros((n, n))
+
+    # fill non-diagonal
     for i in range(n):
         for j in range(n):
-            if i == j:
-                ret[i, j] = choice([-1, -2, -3, -4])
-            else:
-                ret[i, j] = choice([0, -1, -2, -3, -4]) / 10
-    return ret
+            if i != j:
+                matrix[i][j] = choice([1, 2, 3, 4, 5])
+
+    # fill diagonal
+    for i in range(n):
+        non_diagonal_sum = 0
+        for j in range(n):
+            if i != j:
+                non_diagonal_sum += matrix[i][j]
+        matrix[i][i] = non_diagonal_sum + 10
+
+    return csr_matrix(matrix)
 
 
 def hilbert(n):
-    ret = np.zeros((n, n))
-    for i in range(1, n + 1):
-        for j in range(1, n + 1):
-            ret[i - 1, j - 1] = 1 / (i + j - 1)
-    return ret
+    matrix = np.zeros((n, n))
 
-
-def f(a):
-    n = len(a)
-    ret = np.zeros(n)
     for i in range(n):
         for j in range(n):
-            ret[i] += a[i, j] * (j + 1)
-    return ret
+            matrix[i][j] = 1 / (i + j + 1)
+
+    return csr_matrix(matrix)
+
+
+def get_b(matrix):
+    n = matrix.shape[0]
+    b = np.zeros(n)
+
+    for i in range(n):
+        for j in range(n):
+            b[i] += matrix[i, j] * (j + 1)
+
+    return b
