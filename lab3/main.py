@@ -59,37 +59,37 @@ def test_jacobi():
             b = get_b(matrix)
             x_exact = np.array(range(1, n + 1))
 
-            # # test 1
-            # x0 = np.zeros(n)
-            #
-            # t0 = datetime.now()
-            # x, it = jacobi(matrix, b, x0=x0, epsilon=eps)
-            # t1 = datetime.now()
-            #
-            # err = sum(abs(x_exact[i] - x[i]) for i in range(n))
-            #
-            # print("diagonal_prevalence, n=" + str(n)
-            #       + ", eps=" + str(eps)
-            #       + ", x0=0"
-            #       + ", runtime=" + str((t1 - t0).seconds) + " microseconds"
-            #       + ", iterations=" + str(it)
-            #       + ", error=" + str(err))
-            #
-            # # test 2
-            # x0 = b
-            #
-            # t0 = datetime.now()
-            # x, it = jacobi(matrix, b, x0, eps)
-            # t1 = datetime.now()
-            #
-            # err = sum(abs(x_exact[i] - x[i]) for i in range(n))
-            #
-            # print("diagonal_prevalence, n=" + str(n)
-            #       + ", eps=" + str(eps)
-            #       + ", x0=b"
-            #       + ", runtime=" + str((t1 - t0).microseconds) + " microseconds"
-            #       + ", iterations=" + str(it)
-            #       + ", error=" + str(err))
+            # test 1
+            x0 = np.zeros(n)
+
+            t0 = datetime.now()
+            x, it = jacobi(matrix, b, x0=x0, epsilon=eps)
+            t1 = datetime.now()
+
+            err = sum(abs(x_exact[i] - x[i]) for i in range(n))
+
+            print("diagonal_prevalence, n=" + str(n)
+                  + ", eps=" + str(eps)
+                  + ", x0=0"
+                  + ", runtime=" + str((t1 - t0).seconds) + " microseconds"
+                  + ", iterations=" + str(it)
+                  + ", error=" + str(err))
+
+            # test 2
+            x0 = b
+
+            t0 = datetime.now()
+            x, it = jacobi(matrix, b, x0, eps)
+            t1 = datetime.now()
+
+            err = sum(abs(x_exact[i] - x[i]) for i in range(n))
+
+            print("diagonal_prevalence, n=" + str(n)
+                  + ", eps=" + str(eps)
+                  + ", x0=b"
+                  + ", runtime=" + str((t1 - t0).microseconds) + " microseconds"
+                  + ", iterations=" + str(it)
+                  + ", error=" + str(err))
 
             # test 3
             x0 = [1000] * n
@@ -108,7 +108,7 @@ def test_jacobi():
                   + ", error=" + str(err))
 
 
-print("===== gauss =====")
+print("gauss")
 test_gauss()
-print("===== jacobi =====")
+print("jacobi")
 test_jacobi()
